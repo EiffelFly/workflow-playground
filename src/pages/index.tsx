@@ -45,7 +45,7 @@ export default function Home() {
     <>
       <main>
         <div className="flex h-screen w-full p-5 bg-white">
-          <div className="w-full h-full border-2 border-black">
+          <div className="w-full h-full border border-black">
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -56,8 +56,8 @@ export default function Home() {
               proOptions={{ hideAttribution: true }}
               fitView
             >
-              <MiniMap />
-              <Controls />
+              <MiniMap className="!border !border-black" />
+              <Controls className="!border !border-black" />
             </ReactFlow>
           </div>
         </div>

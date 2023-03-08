@@ -11,6 +11,7 @@ import {
   OnConnect,
   applyNodeChanges,
   applyEdgeChanges,
+  Position,
 } from "reactflow";
 
 export type NodeData = {
@@ -31,17 +32,27 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
     {
       id: "1",
       type: "customNode",
+      sourcePosition: Position.Left,
+      targetPosition: Position.Right,
       data: { type: "model" },
       position: { x: 250, y: 25 },
     },
     {
       id: "2",
       type: "customNode",
+      sourcePosition: Position.Left,
+      targetPosition: Position.Right,
       data: { type: "source" },
       position: { x: 150, y: 50 },
     },
   ],
-  edges: [],
+  edges: [
+    {
+      id: "w1",
+      source: "1",
+      target: "2",
+    },
+  ],
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),

@@ -11,12 +11,12 @@ export const CustomNode = memo(({ data }: NodeProps<NodeData>) => {
       <Handle
         type="target"
         position={Position.Right}
-        className="!w-[1px] !h-4 !min-w-0 !min-h-0 !border-0 !rounded-none"
+        className="!w-[1px] !h-2 !min-w-0 !min-h-0 !border-0 !rounded-none"
       />
       <Handle
         type="source"
         position={Position.Left}
-        className="!w-[1px] !h-4 !min-w-0 !min-h-0 !border-0 !rounded-none"
+        className="!w-[1px] !h-2 !min-w-0 !min-h-0 !border-0 !rounded-none"
       />
     </div>
   );
