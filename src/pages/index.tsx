@@ -43,6 +43,9 @@ export default function Home() {
     <>
       <main>
         <div className="flex h-screen w-full p-5 bg-white">
+          <div className="font-sans text-gray-500 absolute top-[120px] left-1/2 -translate-x-1/2">
+            Press cmd + K to add components
+          </div>
           <div className="w-full h-full border border-black">
             <ReactFlow
               nodes={nodes}
