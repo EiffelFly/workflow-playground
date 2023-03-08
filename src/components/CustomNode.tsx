@@ -21,3 +21,5 @@ export const CustomNode = memo(({ data }: NodeProps<NodeData>) => {
     </div>
   );
 });
+
+CustomNode.displayName = "CustomNode";

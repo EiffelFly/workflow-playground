@@ -71,6 +71,7 @@ export const CommandMenu = () => {
                   .filter((e) => e.type === "model")
                   .map((e) => (
                     <Command.Item
+                      key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
                       onSelect={() => {}}
@@ -100,6 +101,7 @@ export const CommandMenu = () => {
                   .filter((e) => e.type === "source")
                   .map((e) => (
                     <Command.Item
+                      key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
                       onSelect={() => {}}
@@ -129,6 +131,7 @@ export const CommandMenu = () => {
                   .filter((e) => e.type === "destination")
                   .map((e) => (
                     <Command.Item
+                      key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
                       onSelect={() => {}}

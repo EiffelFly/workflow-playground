@@ -6,7 +6,6 @@ import { CustomNode } from "@/components/CustomNode";
 import { CmdkStore, useCmdkStore } from "@/stores/cmdk";
 import { useEffect } from "react";
 import { CommandMenu } from "@/components/CommandMenu";
-import { Html } from "next/document";
 
 const workflowSelector = (state: WorkflowStore) => ({
   nodes: state.nodes,
@@ -32,14 +31,13 @@ export default function Home() {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && e.metaKey) {
-        console.log("open command");
         setOpen(!open);
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [open, setOpen]);
 
   return (
     <>
