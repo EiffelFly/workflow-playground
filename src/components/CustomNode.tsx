@@ -1,23 +1,23 @@
 import { NodeData } from "@/stores/workflow";
-import React, { memo } from "react";
+import { memo } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
 
-function CustomNode({ data }: NodeProps<NodeData>) {
+export const CustomNode = memo(({ data }: NodeProps<NodeData>) => {
   return (
-    <div className="px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400">
-      <div className="flex font-mono text-lg">{data.type}</div>
+    <div className="px-4 py-2 rounded-[1px] bg-white border border-black">
+      <div className="flex font-sans text-[10px] font-medium text-black">
+        {data.type}
+      </div>
       <Handle
         type="target"
-        position={Position.Top}
-        className="w-16 !bg-teal-500"
+        position={Position.Right}
+        className="!w-[1px] !h-4 !min-w-0 !min-h-0 !border-0 !rounded-none"
       />
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="w-16 !bg-teal-500"
+        position={Position.Left}
+        className="!w-[1px] !h-4 !min-w-0 !min-h-0 !border-0 !rounded-none"
       />
     </div>
   );
-}
-
-export default memo(CustomNode);
+});

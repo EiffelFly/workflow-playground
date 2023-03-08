@@ -1,11 +1,14 @@
-import { Root } from "@/layouts/Root";
 import "reactflow/dist/style.css";
 import ReactFlow, { MiniMap, Controls } from "reactflow";
 import { useWorkflowStore, WorkflowStore } from "@/stores/workflow";
 import { shallow } from "zustand/shallow";
-import CustomNode from "@/components/CustomNode";
+import { CustomNode } from "@/components/CustomNode";
+import { CmdkStore, useCmdkStore } from "@/stores/cmdk";
+import { useEffect } from "react";
+import { CommandMenu } from "@/components/CommandMenu";
+import { Html } from "next/document";
 
-const selector = (state: WorkflowStore) => ({
+const workflowSelector = (state: WorkflowStore) => ({
   nodes: state.nodes,
   edges: state.edges,
   onNodesChange: state.onNodesChange,
@@ -13,30 +16,53 @@ const selector = (state: WorkflowStore) => ({
   onConnect: state.onConnect,
 });
 
+const cmdkSelector = (state: CmdkStore) => ({
+  open: state.open,
+  setOpen: state.setOpen,
+});
+
 const nodeTypes = { customNode: CustomNode };
 
 export default function Home() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
-    useWorkflowStore(selector, shallow);
+    useWorkflowStore(workflowSelector, shallow);
+
+  const { open, setOpen } = useCmdkStore(cmdkSelector, shallow);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && e.metaKey) {
+        console.log("open command");
+        setOpen(!open);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   return (
-    <Root>
+    <>
       <main>
-        <div className="flex h-screen w-full">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={nodeTypes}
-            fitView
-          >
-            <MiniMap />
-            <Controls />
-          </ReactFlow>
+        <div className="flex h-screen w-full p-5 bg-white">
+          <div className="w-full h-full border-2 border-black">
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              nodeTypes={nodeTypes}
+              proOptions={{ hideAttribution: true }}
+              fitView
+            >
+              <MiniMap />
+              <Controls />
+            </ReactFlow>
+          </div>
         </div>
       </main>
-    </Root>
+      <CommandMenu />
+    </>
   );
 }
