@@ -62,6 +62,7 @@ export const CommandMenu = () => {
       data,
       position: { x: 0, y: 0 },
     });
+    setOpen(false);
   }, []);
 
   return (
