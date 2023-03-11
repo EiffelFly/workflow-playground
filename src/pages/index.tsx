@@ -1,5 +1,10 @@
 import "reactflow/dist/style.css";
-import ReactFlow, { MiniMap, Controls } from "reactflow";
+import ReactFlow, {
+  MiniMap,
+  Controls,
+  Background,
+  BackgroundVariant,
+} from "reactflow";
 import { useWorkflowStore, WorkflowStore } from "@/stores/workflow";
 import { shallow } from "zustand/shallow";
 import { CustomNode } from "@/components/CustomNode";
@@ -59,6 +64,11 @@ export default function Home() {
             >
               <MiniMap className="!border !border-black" />
               <Controls className="!border !border-black" />
+              <Background
+                variant={BackgroundVariant.Dots}
+                gap={16}
+                color="#d1d5db"
+              />
             </ReactFlow>
           </div>
         </div>
