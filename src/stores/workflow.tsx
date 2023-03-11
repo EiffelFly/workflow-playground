@@ -61,7 +61,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
         description:
           "Generative Pre-trained Transformer 2 is an open-source artificial intelligence created by OpenAI in February 2019.",
       },
-      position: { x: 250, y: 25 },
+      position: { x: 450, y: 25 },
     },
   ],
   edges: [
