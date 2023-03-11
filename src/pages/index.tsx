@@ -96,20 +96,20 @@ export default function Home() {
               />
             </ReactFlow>
           </div>
-          <div className="flex flex-col gap-y-5">
-            <div className="w-[360px] h-full flex flex-col">
+          <div className="grid grid-rows-2 grid-cols-1 gap-y-5">
+            <div className="w-[360px] flex flex-col">
               <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
                 Selected Node
               </p>
-              <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
+              <pre className="text-black text-sm flex-1 font-light p-4 border border-black overflow-scroll">
                 {JSON.stringify(selectedNodes, undefined, 2)}
               </pre>
             </div>
-            <div className="w-[360px] h-full flex flex-col">
+            <div className="w-[360px] flex flex-col">
               <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
                 Selected Edges
               </p>
-              <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
+              <pre className="text-black flex-1 text-sm font-light p-4 border border-black overflow-scroll">
                 {JSON.stringify(selectedEdges, undefined, 2)}
               </pre>
             </div>
