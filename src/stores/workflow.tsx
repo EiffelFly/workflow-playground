@@ -16,6 +16,8 @@ import {
 
 export type NodeData = {
   type: "source" | "destination" | "model";
+  title: string;
+  description: string;
 };
 
 export type WorkflowStore = {
@@ -24,6 +26,7 @@ export type WorkflowStore = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  addNode: (node: Node<NodeData>) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -34,16 +37,25 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
       type: "customNode",
       sourcePosition: Position.Left,
       targetPosition: Position.Right,
-      data: { type: "model" },
-      position: { x: 250, y: 25 },
+      data: {
+        type: "source",
+        title: "HTTP",
+        description: "Simple HTTP request",
+      },
+      position: { x: 150, y: 50 },
     },
     {
       id: "2",
       type: "customNode",
       sourcePosition: Position.Left,
       targetPosition: Position.Right,
-      data: { type: "source" },
-      position: { x: 150, y: 50 },
+      data: {
+        type: "model",
+        title: "gpt-2",
+        description:
+          "Generative Pre-trained Transformer 2 is an open-source artificial intelligence created by OpenAI in February 2019.",
+      },
+      position: { x: 250, y: 25 },
     },
   ],
   edges: [
@@ -51,6 +63,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
       id: "w1",
       source: "1",
       target: "2",
+      animated: true,
     },
   ],
   onNodesChange: (changes: NodeChange[]) => {
@@ -65,7 +78,12 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
   },
   onConnect: (connection: Connection) => {
     set({
-      edges: addEdge(connection, get().edges),
+      edges: addEdge({ ...connection, animated: true }, get().edges),
     });
   },
+  addNode: (node: Node<NodeData>) =>
+    set((state) => ({
+      ...state,
+      nodes: [...state.nodes, node],
+    })),
 }));

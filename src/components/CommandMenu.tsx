@@ -1,13 +1,20 @@
 import { CmdkStore, useCmdkStore } from "@/stores/cmdk";
+import { NodeData, useWorkflowStore, WorkflowStore } from "@/stores/workflow";
 import { CommandMenuItem } from "@/types";
 import { Command } from "cmdk";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { Position } from "reactflow";
 import { shallow } from "zustand/shallow";
-import { CommandMenuItemIcon } from "./CommandMenuItemIcon";
+import { ResourceIcon } from "./ResourceIcon";
+import { v4 as uuidv4 } from "uuid";
 
 const cmdkSelector = (state: CmdkStore) => ({
   open: state.open,
   setOpen: state.setOpen,
+});
+
+const workflowSelector = (state: WorkflowStore) => ({
+  addNode: state.addNode,
 });
 
 const items: CommandMenuItem[] = [
@@ -38,12 +45,24 @@ const items: CommandMenuItem[] = [
 
 export const CommandMenu = () => {
   const { open, setOpen } = useCmdkStore(cmdkSelector, shallow);
+  const { addNode } = useWorkflowStore(workflowSelector, shallow);
   const containerRef = useRef(null);
   const [value, setValue] = useState("yolov7");
 
   const selectedItem = useMemo(() => {
     return items.find((e) => e.title === value) || null;
   }, [value]);
+
+  const onSelect = useCallback((data: NodeData) => {
+    addNode({
+      id: uuidv4(),
+      type: "customNode",
+      sourcePosition: Position.Left,
+      targetPosition: Position.Right,
+      data,
+      position: { x: 0, y: 0 },
+    });
+  }, []);
 
   return (
     <>
@@ -74,11 +93,17 @@ export const CommandMenu = () => {
                       key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
-                      onSelect={() => {}}
+                      onSelect={() =>
+                        onSelect({
+                          type: "model",
+                          title: e.title,
+                          description: e.description,
+                        })
+                      }
                     >
                       <div className="flex flex-row gap-x-2">
                         <div className="flex p-1 bg-gray-200">
-                          <CommandMenuItemIcon
+                          <ResourceIcon
                             type={e.type}
                             width="w-6"
                             height="h-6"
@@ -104,11 +129,17 @@ export const CommandMenu = () => {
                       key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
-                      onSelect={() => {}}
+                      onSelect={() =>
+                        onSelect({
+                          type: "source",
+                          title: e.title,
+                          description: e.description,
+                        })
+                      }
                     >
                       <div className="flex flex-row gap-x-2">
                         <div className="flex p-1 bg-gray-200">
-                          <CommandMenuItemIcon
+                          <ResourceIcon
                             type={e.type}
                             width="w-6"
                             height="h-6"
@@ -134,11 +165,17 @@ export const CommandMenu = () => {
                       key={e.title}
                       className="aria-selected:bg-gray-100 p-1"
                       value={e.title}
-                      onSelect={() => {}}
+                      onSelect={() =>
+                        onSelect({
+                          type: "destination",
+                          title: e.title,
+                          description: e.description,
+                        })
+                      }
                     >
                       <div className="flex flex-row gap-x-2">
                         <div className="flex p-1 bg-gray-200">
-                          <CommandMenuItemIcon
+                          <ResourceIcon
                             type={e.type}
                             width="w-6"
                             height="h-6"
