@@ -96,7 +96,7 @@ export default function Home() {
               />
             </ReactFlow>
           </div>
-          <div className="grid grid-rows-2 grid-cols-1 gap-y-5">
+          <div className="grid-rows-2 grid-cols-1 gap-y-5 hidden lg:grid">
             <div className="w-[360px] flex flex-col">
               <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
                 Selected Node
