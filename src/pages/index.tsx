@@ -4,12 +4,13 @@ import ReactFlow, {
   Controls,
   Background,
   BackgroundVariant,
+  Node,
 } from "reactflow";
-import { useWorkflowStore, WorkflowStore } from "@/stores/workflow";
+import { NodeData, useWorkflowStore, WorkflowStore } from "@/stores/workflow";
 import { shallow } from "zustand/shallow";
 import { CustomNode } from "@/components/CustomNode";
 import { CmdkStore, useCmdkStore } from "@/stores/cmdk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CommandMenu } from "@/components/CommandMenu";
 
 const workflowSelector = (state: WorkflowStore) => ({
@@ -18,6 +19,8 @@ const workflowSelector = (state: WorkflowStore) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  selectedNodes: state.selectedNodes,
+  setSelectedNodes: state.setSelectedNodes,
 });
 
 const cmdkSelector = (state: CmdkStore) => ({
@@ -28,8 +31,15 @@ const cmdkSelector = (state: CmdkStore) => ({
 const nodeTypes = { customNode: CustomNode };
 
 export default function Home() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
-    useWorkflowStore(workflowSelector, shallow);
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    selectedNodes,
+    setSelectedNodes,
+  } = useWorkflowStore(workflowSelector, shallow);
 
   const { open, setOpen } = useCmdkStore(cmdkSelector, shallow);
 
@@ -47,11 +57,11 @@ export default function Home() {
   return (
     <>
       <main>
-        <div className="flex h-screen w-full p-5 bg-white">
-          <div className="font-sans text-gray-500 absolute top-[120px] left-1/2 -translate-x-1/2">
-            Press cmd + K to add components
-          </div>
-          <div className="w-full h-full border border-black">
+        <div className="flex flex-row h-screen w-full p-5 bg-white gap-x-5">
+          <div className="flex-1 h-full border border-black relative">
+            <div className="font-sans text-gray-500 absolute top-[120px] left-1/2 -translate-x-1/2">
+              Press cmd + K to add components
+            </div>
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -60,6 +70,10 @@ export default function Home() {
               onConnect={onConnect}
               nodeTypes={nodeTypes}
               proOptions={{ hideAttribution: true }}
+              onSelectionChange={(params) => {
+                setSelectedNodes(params.nodes);
+              }}
+              selectNodesOnDrag={false}
               fitView
             >
               <MiniMap className="!border !border-black" />
@@ -70,6 +84,14 @@ export default function Home() {
                 color="#d1d5db"
               />
             </ReactFlow>
+          </div>
+          <div className="w-[360px] h-full flex flex-col">
+            <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
+              Selected Node
+            </p>
+            <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
+              {JSON.stringify(selectedNodes, undefined, 2)}
+            </pre>
           </div>
         </div>
       </main>

@@ -1,11 +1,29 @@
-import { NodeData } from "@/stores/workflow";
-import { memo } from "react";
+import cn from "clsx";
+import { NodeData, useWorkflowStore } from "@/stores/workflow";
+import { memo, useEffect } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
 import { ResourceIcon } from "./ResourceIcon";
 
-export const CustomNode = memo(({ data }: NodeProps<NodeData>) => {
+export const CustomNode = memo(({ data, id }: NodeProps<NodeData>) => {
+  const selectedNodes = useWorkflowStore((state) => state.selectedNodes);
+
+  useEffect(() => {
+    console.log(
+      selectedNodes,
+      selectedNodes.findIndex((e) => e.id === id),
+      id
+    );
+  }, [selectedNodes]);
+
   return (
-    <div className="px-4 py-2 rounded-[1px] bg-white border border-black">
+    <div
+      className={cn(
+        "px-4 py-2 rounded-[1px] bg-white border",
+        selectedNodes.findIndex((e) => e.id === id) !== -1
+          ? "border-black"
+          : "border-gray-300"
+      )}
+    >
       <div className="flex flex-col gap-y-1">
         <div className="flex flex-row gap-x-2">
           <ResourceIcon
