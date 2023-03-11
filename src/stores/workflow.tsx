@@ -20,15 +20,19 @@ export type NodeData = {
   description: string;
 };
 
+export type EdgeData = {};
+
 export type WorkflowStore = {
   nodes: Node<NodeData>[];
-  edges: Edge[];
+  edges: Edge<EdgeData>[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   addNode: (node: Node<NodeData>) => void;
   selectedNodes: Node<NodeData>[];
   setSelectedNodes: (nodes: Node<NodeData>[]) => void;
+  selectedEdges: Edge<EdgeData>[];
+  setSelectedEdges: (edges: Edge<EdgeData>[]) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -66,12 +70,18 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
       source: "1",
       target: "2",
       animated: true,
+      type: "customEdge",
     },
   ],
   selectedNodes: [],
   setSelectedNodes: (nodes: Node<NodeData>[]) =>
     set((state) => {
       return { ...state, selectedNodes: nodes };
+    }),
+  selectedEdges: [],
+  setSelectedEdges: (edges: Edge<EdgeData>[]) =>
+    set((state) => {
+      return { ...state, selectedEdges: edges };
     }),
   onNodesChange: (changes: NodeChange[]) => {
     set({

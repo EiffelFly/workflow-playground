@@ -12,6 +12,7 @@ import { CustomNode } from "@/components/CustomNode";
 import { CmdkStore, useCmdkStore } from "@/stores/cmdk";
 import { useEffect, useState } from "react";
 import { CommandMenu } from "@/components/CommandMenu";
+import { CustomEdge } from "@/components/CustomEdge";
 
 const workflowSelector = (state: WorkflowStore) => ({
   nodes: state.nodes,
@@ -21,6 +22,8 @@ const workflowSelector = (state: WorkflowStore) => ({
   onConnect: state.onConnect,
   selectedNodes: state.selectedNodes,
   setSelectedNodes: state.setSelectedNodes,
+  selectedEdges: state.selectedEdges,
+  setSelectedEdges: state.setSelectedEdges,
 });
 
 const cmdkSelector = (state: CmdkStore) => ({
@@ -29,6 +32,10 @@ const cmdkSelector = (state: CmdkStore) => ({
 });
 
 const nodeTypes = { customNode: CustomNode };
+
+const edgeTypes = {
+  customEdge: CustomEdge,
+};
 
 export default function Home() {
   const {
@@ -39,6 +46,8 @@ export default function Home() {
     onConnect,
     selectedNodes,
     setSelectedNodes,
+    selectedEdges,
+    setSelectedEdges,
   } = useWorkflowStore(workflowSelector, shallow);
 
   const { open, setOpen } = useCmdkStore(cmdkSelector, shallow);
@@ -69,9 +78,11 @@ export default function Home() {
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
               nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
               proOptions={{ hideAttribution: true }}
               onSelectionChange={(params) => {
                 setSelectedNodes(params.nodes);
+                setSelectedEdges(params.edges);
               }}
               selectNodesOnDrag={false}
               fitView
@@ -85,13 +96,23 @@ export default function Home() {
               />
             </ReactFlow>
           </div>
-          <div className="w-[360px] h-full flex flex-col">
-            <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
-              Selected Node
-            </p>
-            <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
-              {JSON.stringify(selectedNodes, undefined, 2)}
-            </pre>
+          <div className="flex flex-col">
+            <div className="w-[360px] h-full flex flex-col">
+              <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
+                Selected Node
+              </p>
+              <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
+                {JSON.stringify(selectedNodes, undefined, 2)}
+              </pre>
+            </div>
+            <div className="w-[360px] h-full flex flex-col">
+              <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
+                Selected Edges
+              </p>
+              <pre className="text-black text-sm font-light p-4 border border-black overflow-scroll">
+                {JSON.stringify(selectedEdges, undefined, 2)}
+              </pre>
+            </div>
           </div>
         </div>
       </main>
