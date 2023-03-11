@@ -2,7 +2,7 @@ import cn from "clsx";
 import { ComponentType } from "@/types";
 import { ReactNode } from "react";
 
-export type CommandMenuItemIconProps = {
+export type ResourceIconProps = {
   type: ComponentType;
   width: string;
   height: string;
@@ -10,13 +10,13 @@ export type CommandMenuItemIconProps = {
   position: string;
 };
 
-export const CommandMenuItemIcon = ({
+export const ResourceIcon = ({
   type,
   width,
   height,
   color,
   position,
-}: CommandMenuItemIconProps) => {
+}: ResourceIconProps) => {
   let path: ReactNode | null = null;
 
   switch (type) {
