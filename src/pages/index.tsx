@@ -96,7 +96,7 @@ export default function Home() {
               />
             </ReactFlow>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-y-5">
             <div className="w-[360px] h-full flex flex-col">
               <p className="mb-4 text-black font-light text-base font-sans py-2 px-4 border border-black mr-auto">
                 Selected Node

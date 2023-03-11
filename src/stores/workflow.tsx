@@ -95,7 +95,10 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
   },
   onConnect: (connection: Connection) => {
     set({
-      edges: addEdge({ ...connection, animated: true }, get().edges),
+      edges: addEdge(
+        { ...connection, animated: true, type: "customEdge" },
+        get().edges
+      ),
     });
   },
   addNode: (node: Node<NodeData>) =>
